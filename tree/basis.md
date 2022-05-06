@@ -14,6 +14,8 @@ function traversal(root) {
 
 **不同的遍历位置，有不同的作用，前序遍历自顶而下，能从函数参数中获取父节点传递来的数据，后续遍历自底向上，不仅可以获取函数参数数据，还可以获取到函数返回值传递回来的数据**
 
+> 快速排序类似前序排序，归并排序类似后序排序
+
 eg:
 
 ```js
@@ -155,10 +157,22 @@ function maxDepth(root) {
 
 > 同时也应该看出，一般涉及到子树的问题，相关逻辑大部分都放在后序，后序就需要合理的返回值来做处理啦。
 
-[543.二叉树的直径](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+[543.二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
 ```js
-
+var diameterOfBinaryTree = function (root) {
+  let res = 0;
+  const maxDep = node => {
+    if (!node) return 0;
+    const leftDep = maxDep(node.left);
+    const rightDep = maxDep(node.right);
+    res = Math.max(leftDep + rightDep, res);
+    return Math.max(leftDep, rightDep) + 1;
+  };
+  maxDep(root);
+  return res;
+};
 ```
 
 该题就是要转变下题目，实际上就是求*左右子树最大深度之和*
+遇到子树问题，首先想到的是给函数设置返回值，然后在后序位置做文章。
