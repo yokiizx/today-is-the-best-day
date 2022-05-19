@@ -118,7 +118,8 @@ function mergeSort (nums) {
   // 定义: 对nums[l..r]排序后进行合并
   const sort = (nums, l, r) => {
     if (l === r) return // 单个元素不用排序
-    const mid = Math.floor(l + (r - l) / 2)
+    // const mid = Math.floor(l + (r - l) / 2)
+    const mid = l + (r - l >> 1)
     sort(nums, l, mid)
     sort(nums, mid + 1, r)
     merge(nums, l, mid, r)
@@ -135,36 +136,15 @@ function mergeSort (nums) {
     for (let p = l; p <= r; p++) {
 
 
-      // if (i === mid + 1) {
-      //   // 左边加完了,右边按序加入
-      //   console.log(1)
-      //   nums[p] = temp[j++]
-      // } else if (j === r + 1) {
-      //   console.log(2)
-
-      //   // 左边加完了,右边按序加入
-      //   nums[p] = temp[i++]
-      // } else if (temp[i] > temp[j]) {
-      //   console.log(3)
-
-      //   nums[p] = temp[j++]
-      // } else {
-      //   console.log(4)
-
-      //   nums[p] = temp[i++]
-      // }
-
-      if (temp[i] > temp[j]) {
-        console.log(3)
-        nums[p] = temp[j++]
-      } else if (i === mid + 1) {
-        console.log(1)
+      if (i === mid + 1) {
+        // 左边加完了,右边按序加入
         nums[p] = temp[j++]
       } else if (j === r + 1) {
-        console.log(2)
+        // 左边加完了,右边按序加入
         nums[p] = temp[i++]
-      } else if (temp[i] <= temp[j]) {
-        console.log(4)
+      } else if (temp[i] > temp[j]) {
+        nums[p] = temp[j++]
+      } else {
         nums[p] = temp[i++]
       }
     }
@@ -176,4 +156,4 @@ function mergeSort (nums) {
 let arr1 = [-1, 2, -8, -10, 8, 3]
 mergeSort(arr1)
 // quickSort(arr1, 0, arr1.length - 1)
-console.log('--1', arr1)
+console.log('--1--', arr1)
