@@ -157,3 +157,9 @@ function mergeSort (nums) {
 // console.log('--1--', arr1)
 quickSort(arr, 0, arr.length - 1)
 console.log(arr)
+
+
+
+var findKthLargest = function (nums, k) {
+
+}
