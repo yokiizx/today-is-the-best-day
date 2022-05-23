@@ -49,33 +49,31 @@ function select (nums) {
 // 便于理解的简单写法
 function quickSort (nums, l, r) {
   if (l >= r) return
-  const index = partition(nums, l, r)
-  console.log('index', index);
-  quickSort(nums, l, index - 1)
-  quickSort(nums, index, r)
+  const partitionIndex = partition(nums, l, r);
+  quickSort(nums, l, partitionIndex - 1);
+  quickSort(nums, partitionIndex + 1, r);
+
 }
-// 一次排序，随机选择一个数作为基准，大于放右，小于放左，这样就确定了该基数的位置，对两边做相同的操作
-// 这里利用双指针进行操作
 const partition = (nums, l, r) => {
-  // 注意随机索引的设置，+1和+l都是必须的
-  const randomIndex = l + Math.floor(Math.random() * (r - l + 1))
-  console.log('randomIndex', randomIndex);
-  const pivot = nums[randomIndex]
-  let lt = l, gt = r
-  while (lt <= gt) {
-    while (nums[lt] < pivot) {
-      lt++
+  const randomIndex = l + Math.random() * (r - l) | 0
+  // 与第一个交换
+  [nums[l], nums[randomIndex]] =[nums[randomIndex], nums[l]]
+  const pivot = nums[l]
+  let i = l + 1, j = r
+  // 对基准之外的元素进行交换，让左边的都小于基准，右边的都大于基准
+  while (i <= j) {
+    while (nums[i] <= pivot && i < r) {
+      i++
     }
-    while (nums[gt] > pivot) {
-      gt--
+    while (nums[j] > pivot && j > l) {
+      j--
     }
-    if (lt <= gt) {
-      [nums[lt], nums[gt]] = [nums[gt], nums[lt]]
-      lt++
-      gt--
-    }
+    if (i >= j) break
+    [nums[i], nums[j]] = [nums[j], nums[i]]
   }
-  return lt
+  // 把基准元素放到正确的位置
+  [nums[l], nums[j]] = [nums[j], nums[l]]
+  return j
 }
 
 // 便于理解的简单写法
@@ -153,7 +151,9 @@ function mergeSort (nums) {
 }
 
 
-let arr1 = [-1, 2, -8, -10, 8, 3]
-mergeSort(arr1)
-// quickSort(arr1, 0, arr1.length - 1)
-console.log('--1--', arr1)
+// let arr1 = [-1, 2, -8, -10, 8, 3]
+// mergeSort(arr1)
+// // quickSort(arr1, 0, arr1.length - 1)
+// console.log('--1--', arr1)
+quickSort(arr, 0, arr.length - 1)
+console.log(arr)
