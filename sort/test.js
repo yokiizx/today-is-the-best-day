@@ -12,10 +12,10 @@
 //   return res
 // }
 
-let arr = [1, 2, 3, 4, 5]
-let n = arr.length,
-  index = 0
-while (index < 2 * n) {
-  console.log(arr[index % n])
-  index++
-}
+// let arr = [1, 2, 3, 4, 5]
+// let n = arr.length,
+//   index = 0
+// while (index < 2 * n) {
+//   console.log(arr[index % n])
+//   index++
+// }
