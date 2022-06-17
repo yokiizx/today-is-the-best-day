@@ -19,3 +19,14 @@
 //   console.log(arr[index % n])
 //   index++
 // }
+
+const arr = [1, 2, 3, 4, 5]
+
+function logReverse(arr, n) {
+  if (n < 0) return
+  console.log('前--', arr[n])
+  logReverse(arr, n - 1)
+  console.log('后====', arr[n])
+}
+
+logReverse(arr, arr.length - 1)
