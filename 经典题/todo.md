@@ -36,4 +36,10 @@ var isPossible = function (nums) {
 }
 ```
 
-[labuladong](https://labuladong.github.io/algo/4/31/123/)
+> https://labuladong.github.io/algo/4/31/123/
+
+---
+
+[391.判定完美矩形](https://leetcode.cn/problems/perfect-rectangle/)
+
+> https://labuladong.github.io/algo/4/31/129/
