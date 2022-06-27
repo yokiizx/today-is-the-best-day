@@ -8,7 +8,7 @@
 - 最优子结构
 - 状态转移方程
 
-> 辅助写出状态转移方程：明确 base case -> 明确「状态」-> 明确「选择」 -> 定义 dp 数组/函数的含义。
+> 辅助写出状态转移方程：明确 base case -> 明确「状态」-> 明确「选择」 -> 定义 dp **数组/函数**的含义。
 
 ```js
 // 思路1: 自顶向下的动态规划
@@ -29,3 +29,32 @@ for(const 状态1 of 状态1中的所有取值) {
   }
 }
 ```
+
+[322.零钱兑换](https://leetcode.cn/problems/coin-change/)
+
+```js
+/**
+ * @param {number[]} coins
+ * @param {number} amount
+ * @return {number}
+ */
+var coinChange = function (coins, amount) {
+  // 思考，很明显变化的是count 设定dp状态转移为 dp[i] = dp[i-1] + 1
+  // 定义dp数组,amount的变化, 注意这里不是1,2,3...的变化,而是根据硬币的数值产生变化!!!
+  const dp = new Array(amount + 1).fill(amount + 1)
+  // base case
+  dp[0] = 0
+  // 遍历 ---> 状态 dp
+  for (let i = 0; i < dp.length; ++i) {
+    // 没有别的状态了,开始做选择
+    for (const coin of coins) {
+      // 子问题无解 跳过
+      if (i - coin < 0) continue
+      dp[i] = Math.min(dp[i], dp[i - coin] + 1)
+    }
+  }
+  return dp[amount] === amount + 1 ? -1 : dp[amount]
+}
+```
+
+> 为啥 dp 数组中的值都初始化为 amount + 1 呢，因为凑成 amount 金额的硬币数最多只可能等于 amount（全用 1 元面值的硬币），所以初始化为 amount + 1 就相当于初始化为正无穷，便于后续取最小值。
