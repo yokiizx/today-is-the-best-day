@@ -58,3 +58,33 @@ var coinChange = function (coins, amount) {
 ```
 
 > 为啥 dp 数组中的值都初始化为 amount + 1 呢，因为凑成 amount 金额的硬币数最多只可能等于 amount（全用 1 元面值的硬币），所以初始化为 amount + 1 就相当于初始化为正无穷，便于后续取最小值。
+
+### 练习题
+
+[300.最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/submissions/)
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function (nums) {
+  // 个人思路：能变化的就是nums的长度了，从0到nums。length
+  const dp = new Array(nums.length + 1).fill(1) // 初始化为1这一步很重要
+  // base case  每个都初始化为1了
+  // dp[1] = 1
+  // 状态 每个位置i
+  for (let i = 0; i < dp.length; ++i) {
+    // 转移 [0,i)的最长递增子序列 + 1 就是新的子序列长度
+    for (let j = 0; j < i; ++j) {
+      if (nums[i] > nums[j]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1) // 思路, 比如 nums[5] = 3，既然是递增子序列，我们只要找到前面那些结尾比 3 小的子序列，然后把 3 接到这些子序列末尾，就可以形成一个新的递增子序列，而且这个新的子序列长度加一
+      }
+    }
+  }
+  console.log(dp)
+  return Math.max(...dp)
+}
+```
+
+> 子序列不用连续，子串必须是连续的
