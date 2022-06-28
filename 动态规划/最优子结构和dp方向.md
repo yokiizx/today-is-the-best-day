@@ -48,7 +48,40 @@ var minDistance = function (word1, word2) {
 }
 ```
 
-TODO
+[64.最小路径和](https://leetcode.cn/problems/minimum-path-sum/)
+
+```js
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function (grid) {
+  // 思路, 向下或向右 是选择 状态就是 每个格子的最小值, 对应的就是dp[i][j]
+  const m = grid.length,
+    n = grid[0].length
+  const dp = Array.from(new Array(m), _ => new Array(n))
+  // base case
+  dp[0][0] = grid[0][0]
+  for (let i = 1; i < m; ++i) {
+    dp[i][0] = dp[i - 1][0] + grid[i][0]
+  }
+  for (let j = 1; j < n; ++j) {
+    dp[0][j] = dp[0][j - 1] + grid[0][j]
+  }
+
+  // 状态
+  for (let i = 1; i < m; ++i) {
+    for (let j = 1; j < n; ++j) {
+      // 选择
+      dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j]
+    }
+  }
+
+  return dp[m - 1][n - 1]
+}
+```
+
+### 加餐 遍历方向
 
 二维数组 正向, 竖向, 反向, **斜向**遍历
 
