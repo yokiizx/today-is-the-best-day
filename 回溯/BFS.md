@@ -239,6 +239,6 @@ function swap(str, i, j) {
 
 ![BFS-2022-06-20](https://raw.githubusercontent.com/yokiizx/picgo/main/images/BFS-2022-06-20.png)
 
-### todo 双向 BFS 优化
+### TODO 双向 BFS 优化
 
 [labudalong 双向 BFS 优化](https://labuladong.github.io/algo/4/29/109/)
