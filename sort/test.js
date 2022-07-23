@@ -44,70 +44,134 @@
 
 // console.log(map.keys().next().value)
 
+// class PriorityQueue {
+//   // 初始化传入比较函数传入
+//   constructor(data, cmp) {
+//     this.data = [null].concat(data) // 注意这步操作，是为了方便计算父节点
+//     this.cmp = cmp // 比较函数
+//     // TODO 这一步是为什么呢???
+//     for (let i = data.length >> 1; i > 0; i--) this.down(i)
+//   }
+//   get size() {
+//     return this.data.length - 1
+//   }
+//   get top() {
+//     return this.data[1]
+//   }
+//   swap(i, j) {
+//     ;[this.data[i], this.data[j]] = [this.data[j], this.data[i]]
+//   }
+//   // 利用递归进行上浮和下沉
+//   up(i) {
+//     if (i === 1) return
+//     const p = i >> 1
+//     if (this.cmp(this.data[p], this.data[i])) {
+//       this.swap(i, p)
+//       this.up(p)
+//     }
+//   }
+//   //        0
+//   //    1       2
+//   // 3     4  5     6
+//   down(i) {
+//     let j = i
+//     const n = this.data.length
+//     if (i === n - 1) return
+//     const l = i << 1,
+//       r = l + 1
+//     if (l < n && this.cmp(this.data[i], this.data[l])) i = l
+//     if (r < n && this.cmp(this.data[i], this.data[r])) i = r
+//     if (j !== i) {
+//       this.swap(i, j)
+//       this.down(i)
+//     }
+//   }
+//   push(val) {
+//     // 把值加入末尾,然后上浮它
+//     this.up(this.data.push(val) - 1)
+//   }
+//   pop() {
+//     // 把第一个和最后一个交换, pop出需要的值,把最后一个下沉
+//     this.swap(1, this.data.length - 1)
+//     const res = this.data.pop()
+//     this.down(1)
+//     return res
+//   }
+// }
+
 class PriorityQueue {
-  // 初始化传入比较函数传入
+  // 初始化数据和比较函数
   constructor(data, cmp) {
-    this.data = [null].concat(data) // 注意这步操作，是为了方便计算父节点
-    this.cmp = cmp // 比较函数
-    // TODO 这一步是为什么呢???
-    for (let i = data.length >> 1; i > 0; i--) this.down(i)
+    this.data = [null].concat(data) // 方便计算父节点 p为 i >> 1 l为 i << 1
+    this.cmp = cmp
+    for (let i = data.length >> 1; i > 0; --i) this.down(i) // 对后面的一半数据进行下沉处理,则全部排好序了
   }
+  // 两个getter方法
   get size() {
     return this.data.length - 1
   }
   get top() {
     return this.data[1]
   }
-  swap(i, j) {
-    ;[this.data[i], this.data[j]] = [this.data[j], this.data[i]]
-  }
-  // 利用递归进行上浮和下沉
+  // 通过递归来实现上浮和下沉方法
   up(i) {
     if (i === 1) return
     const p = i >> 1
-    if (this.cmp(this.data[p], this.data[i])) {
+    if (this.cmp(this.data[i], this.data[p])) {
       this.swap(i, p)
       this.up(p)
     }
   }
   down(i) {
-    let j = i
-    const n = this.data.length
-    if (i === n - 1) return
+    if (i === this.size) return
+    const old = i // 固定之前的索引
     const l = i << 1,
       r = l + 1
-    if (l < n && this.cmp(this.data[i], this.data[l])) i = l
-    if (r < n && this.cmp(this.data[i], this.data[r])) i = r
-    if (j !== i) {
-      this.swap(i, j)
+    if (l <= this.size && this.cmp(this.data[l], this.data[i])) i = l
+    if (r <= this.size && this.cmp(this.data[r], this.data[i])) i = r
+    if (old !== i) {
+      this.swap(old, i)
       this.down(i)
     }
   }
   push(val) {
-    // 把值加入末尾,然后上浮它
-    this.up(this.data.push(val) - 1)
+    this.up(this.data.push(val) - 1) // 加入末尾然后开始上浮到正确的位置
   }
   pop() {
-    // 把第一个和最后一个交换, pop出需要的值,把最后一个下沉
+    // 把堆顶交换到末尾,然后取出末尾, 再对刚放入堆顶的元素下沉即可
     this.swap(1, this.data.length - 1)
-    const res = this.data.pop()
+    const node = this.data.pop()
     this.down(1)
-    return res
+    return node
+  }
+  swap(i, j) {
+    ;[this.data[i], this.data[j]] = [this.data[j], this.data[i]]
   }
 }
 
 let arr = [3, 1, 4, 6, 2, 7, 9, 8, 0, 5]
 
-const pq = new PriorityQueue(arr, (a, b) => a - b > 0)
+const pq = new PriorityQueue(arr, (a, b) => a - b < 0)
 console.log('pq', pq)
-
-const map = new Map([
-  ['I', 1],
-  ['V', 5],
-  ['X', 10],
-  ['L', 50],
-  ['C', 100],
-  ['D', 500],
-  ['M', 1000]
-])
-console.log(map)
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+console.log(pq.pop())
+// const map = new Map([
+//   ['I', 1],
+//   ['V', 5],
+//   ['X', 10],
+//   ['L', 50],
+//   ['C', 100],
+//   ['D', 500],
+//   ['M', 1000]
+// ])
+// console.log(map)
